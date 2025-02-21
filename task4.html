@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            font-family: inherit;
+        }
+
+        .main {
+            width: 100%;
+            height: 100%;
+            /* background-color: lightblue; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .box {
+            width: 20%;
+            height: 150px;
+            border: 1px solid red;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            cursor: pointer;
+        }
+
+        .overlay {
+            width: 100vw;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: red;
+            transform: scale(0);
+            transition: 500ms;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+
+    </div>
+    <div class="main">
+        <!-- <div class="box"></div> -->
+    </div>
+    <script>
+        var main = document.querySelector('.main');
+
+        // var red = Math.floor(Math.random() * 256).toString(15);
+        // var green = Math.floor(Math.random() * 256).toString(15);
+        // var blue = Math.floor(Math.random() * 256).toString(15);
+        // var code ="#"+ red + green + blue;
+        // console.log(code);
+
+        function getcolorcode() {
+            var red = Math.floor(Math.random() * 256).toString(15);
+            var green = Math.floor(Math.random() * 256).toString(15);
+            var blue = Math.floor(Math.random() * 256).toString(15);
+            var code = "#" + red + green + blue;
+            // console.log("OLD", code);
+            // console.log(code.length);
+            if (code.length == 7) {
+                return code;
+            }
+            else {
+                return getcolorcode();
+            }
+        }
+
+        for (var i = 1; i <= 25; i++) {
+            var finalcode = getcolorcode();
+            // console.log("new", finalcode);
+            var div = document.createElement('div');
+            div.classList.add('box');
+            div.style.background = finalcode;
+            main.append(div);
+            div.innerText = finalcode;
+        }
+        // console.log(div);
+
+
+
+        var boxes = document.querySelectorAll('.box');
+        var overlay = document.querySelector('.copy-clr');
+
+        for (var boxitem of boxes) {
+            boxitem.addEventListener(
+                'click', function () {
+                    // console.log(this.innerText)
+                    overlay.style.transform = 'scale(1)';
+                    overlay.style.background=this.innerText;
+                    overlay.innerText=this.innerText;
+                    navigator.clipboard.writeText(this.innerText);
+
+                setTimeout(
+                    function(){
+                        overlay.style.transform='scale(0)';
+                    },600
+                )
+                }
+            )
+        }
+
+
+    </script>
+</body>
+
+</html>
